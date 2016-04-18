@@ -11,10 +11,10 @@ return array(
 	'password' => 'waterbowl',
 	'charset' => 'utf8',*/
 
-	'connectionString' => 'mysql:host=localhost;dbname=waterbowl',
+	'connectionString' => 'mysql:host=wbmaindb.ch1fzgmg7wfn.us-east-1.rds.amazonaws.com;dbname=wbmaindb',
 	'emulatePrepare' => true,
-	'username' => 'root',
-	'password' => '',
+	'username' => 'wbdbuser1',
+	'password' => 'db65wb65',
 	'charset' => 'utf8',
 	
 );
