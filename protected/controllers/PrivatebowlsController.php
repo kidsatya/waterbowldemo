@@ -28,7 +28,7 @@ class PrivatebowlsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','myPrivateBowls'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -126,6 +126,25 @@ class PrivatebowlsController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+	}
+
+	// User will get his Private Bowls
+	public function actionMyPrivateBowls()
+	{
+		$email = $_POST['email'];
+		$usermodel=Users::model()->findByAttributes(array('email'=>$email));
+
+		$id = $usermodel->id;
+		$allArs = Privatebowls::model()->findAllBySql('SELECT * FROM privatebowls where userid = '.$id);
+		//echo 'SELECT * FROM locations where id IN (SELECT locationid FROM volunteers where userid = '.$id.')';
+		$bowls = array();
+		foreach ($allArs as $row) {
+			//print_r($row['latitude']);
+			//$d = $this->distance($row['latitude'],$row['longitude'],$latitude,$longitude,"K");
+			//if($d <= 0.1)
+			array_push($bowls, $row);
+		}
+		echo CJavaScript::jsonEncode($bowls);
 	}
 
 	/**

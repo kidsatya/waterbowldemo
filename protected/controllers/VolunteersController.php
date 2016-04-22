@@ -90,6 +90,7 @@ class VolunteersController extends Controller
 		echo CJavaScript::jsonEncode($allArs);
 	}
 
+    // User will get his Volunteered Bowls
 	public function actionMyBowls()
 	{
 		$email = $_POST['email'];
@@ -128,6 +129,7 @@ class VolunteersController extends Controller
 	      }
 	}
 
+    // Creating A Volunteer From Mobile
 	public function actionCreateVolunteer()
 	{
 		$model=new Volunteers;

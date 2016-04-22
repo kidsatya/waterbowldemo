@@ -28,7 +28,7 @@ class RequestsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','createRequest','approved','getRequests','placeabowl','sponserABowl','buyABowl'),
+				'actions'=>array('index','view','createRequest','approved','getRequests','placeabowl','sponserABowl','buyABowl','orderABowl'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -79,6 +79,7 @@ class RequestsController extends Controller
 		));
 	}
 
+    // Admin will send A request for A Bowl Installation From His Current Location
 	public function actionCreateRequest()
 	{
 
@@ -131,6 +132,7 @@ class RequestsController extends Controller
 			}
 		}
 	}
+    
 
 	public function actionSponserABowl()
 	{
@@ -151,6 +153,8 @@ class RequestsController extends Controller
 
 	}
 
+    // People will Buy A Bowl From their Current Location
+    // Mobile will send how many bowls and the cost of Bowls
 	public function actionBuyABowl()
 	{
 		$model=new Privatebowls;
@@ -189,6 +193,53 @@ class RequestsController extends Controller
 		}
 	}
 
+    // People will Buy A Bowl From their Current Location
+    // Mobile will send how many bowls and the cost of Bowls
+	public function actionOrderABowl()
+	{
+		$model=new Privatebowls;
+
+        $name = $_POST['name'];
+		$email = $_POST['email'];
+		$mobile = $_POST['mobile'];
+		$delivery_address = $_POST['delivery_address'];
+		$bowlType = $_POST['bowlType'];
+		$locality = $_POST['locality'];
+		$location = $_POST['location'];
+		$latitude = $_POST['latitude'];
+		$longitude = $_POST['longitude'];
+		$amount = $_POST['amount'];
+		$city = $_POST['city'];
+
+		$usermodel=Users::model()->findByAttributes(array('email'=>$email));
+
+		if($usermodel == null){
+			echo "User Does Not Exist";
+		}	
+		else{
+
+			$model->name = $name;
+			$model->mobile = $mobile;
+			$model->delivery_address = $delivery_address;
+			$model->userid = $usermodel->id;
+			$model->locality = $locality;
+			$model->location = $location;
+			$model->latitude = $latitude;
+			$model->longitude = $longitude;
+			$model->status = "waiting";
+			$model->bowltype = $bowlType;
+			$model->amount = $amount;
+			$model->city = $city;
+			if($model->save())
+				echo "Success";
+			else{
+				echo "Failed";
+			}
+			
+		}
+	}
+    
+    // If A Bowl Requested is Approved we will send A Push Notification to the mobile.
 	public function actionApproved($rId)
 	{
 		// API access key from Google API's Console
@@ -235,6 +286,7 @@ class RequestsController extends Controller
 		echo $result;
 	}
 
+    // Getting All the requests and sending to the mobile
 	public function actionGetRequests()
 	{
 		//$email = $_POST['email'];
@@ -269,7 +321,7 @@ class RequestsController extends Controller
 			$user = Users::model()->findByAttributes(array('id'=>$model->userid));
 			if($model->save()){				
 
-				if($model->status == "Approved"){
+				if($model->status == "Approved"){ // If Request is Approved We will automatically create the Bowl Location
 					$location_model=new Locations;
 					$location_model->locality = $model->locality;
 					$location_model->location = $model->location; 

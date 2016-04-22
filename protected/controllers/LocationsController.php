@@ -79,6 +79,10 @@ class LocationsController extends Controller
 		));
 	}
 
+    // Getting All the bowls which needs sonsership
+    // Here we are getting all the bowls where sponser_id is 0
+    // sponser_id is 0 means no one sponsered the bowl yet
+    // If Any One Sponsered sponser_id will be the user's Id value, whom sponsered the bowl
 	public function actionNeedSponser()
 	{
 		//$email = $_POST['email'];
@@ -88,12 +92,14 @@ class LocationsController extends Controller
 		echo CJSON::encode($data);
 	}
 
+
 	public function actionList($id)
 	{
 		$allArs = Locations::model()->findAll(array('condition'=>'id> :id','params'=>array(':id'=>$id)));
 		echo CJavaScript::jsonEncode($allArs);
 	}
 
+    // Updating the Status of A Bowl, to good , need maintanance or damage
 	public function actionUpdateStatus()
 	{
 		$email = $_POST['email'];
@@ -112,11 +118,13 @@ class LocationsController extends Controller
 		}
 	}
 
+    // Action for Sponsering A Bowl 
+    // Mobile will send the email, locationId
 	public function actionSponserABowl()
 	{
 		
 		$email = $_POST['email'];
-		$id = $_POST['id'];
+		$id = $_POST['id']; // Location ID
 
 		$usermodel=Users::model()->findByAttributes(array('email'=>$email));
 
@@ -131,6 +139,7 @@ class LocationsController extends Controller
 
 	}
 
+    // Admin Is Uploading the Bowl Image and Updating the Status Of Bowl
 	public function actionAdminUpdateStatus()
 	{
 
@@ -146,7 +155,7 @@ class LocationsController extends Controller
 	    $binary=base64_decode($base);
 	    header('Content-Type: bitmap; charset=utf-8');
 	    // Images will be saved under 'www/imgupload/uplodedimages' folder
-	    $file = fopen($path.$id.".png", 'wb');
+	    $file = fopen($path.$id.".jpg", 'wb');
 	    // Create File
 	    fwrite($file, $binary);
 	    fclose($file);
@@ -208,6 +217,7 @@ class LocationsController extends Controller
 	    echo 'Image upload complete, Please check your php file directory';
 	}
 
+    // Getting Status Of Bowl
 	public function actionGetStatus()
 	{
 		$id = $_POST['locationId'];

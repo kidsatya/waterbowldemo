@@ -142,16 +142,16 @@ class UsersController extends Controller
 			'model'=>$model,
 		));
 	}
-
+    // Finding whether User Is Already Created 
 	public function actionFindUser()
 	{
 		$email = $_POST['email'];
 		$regId = $_POST['regId'];
 		$model=Users::model()->findByAttributes(array('email'=>$email));
-		if($model===null){
+		if($model===null){ // User doesn't exist
 			echo '{"message":"No User","admin":"no"}';
 		}
-		else{
+		else{ // User already exist
 			if($model->regId != $regId){
 				$model->regId = $regId;
 				if($model->save()){
@@ -162,7 +162,7 @@ class UsersController extends Controller
 			}
 		}
 	}
-
+    // Creating the user from data sent from mobile
 	public function actionCreateUser()
 	{
 		$firstName = $_POST['firstName'];
@@ -170,7 +170,7 @@ class UsersController extends Controller
 		$mobile = $_POST['mobile'];
 		$regId = $_POST['regId'];
 		$model=Users::model()->findByAttributes(array('email'=>$email));
-		if($model===null){
+		if($model===null){ // If User not created Already
 			$model=new Users;
 			$model->firstName = $firstName;
 			$model->email = $email;
@@ -186,12 +186,16 @@ class UsersController extends Controller
 			echo "User Already Registered";
 	}
 
+    // Getting All the cities from table,     
+    // this data is used in mobile where user will choose one city from list of cities
 	public function actionGetCities()
 	{
 		$allArs = City::model()->findAll();
 		echo CJavaScript::jsonEncode($allArs);
 	}
 
+    //function to update the default city of a User
+    //Values to send are the email and cityId 
 	public function actionUpdateCity()
 	{
 		$email = $_POST['email'];

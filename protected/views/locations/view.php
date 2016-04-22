@@ -33,4 +33,4 @@ $this->menu=array(
 	),
 )); ?>
 
-<img src="uploadedimages/<?php echo $model->id ?>.png" />
+<img src="uploadedimages/<?php echo $model->id ?>.jpg" />

@@ -37,7 +37,7 @@
 	<?php echo CHtml::encode($data->updated_time); ?>
 	<br />
 
-	<img src="uploadedimages/<?php echo $data->id; ?>.png" />
+	<img src="uploadedimages/<?php echo $data->id; ?>.jpg" />
 
 	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>

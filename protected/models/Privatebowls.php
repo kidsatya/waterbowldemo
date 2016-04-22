@@ -33,8 +33,8 @@ class Privatebowls extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('userid', 'numerical', 'integerOnly'=>true),
-			array('locality, location', 'length', 'max'=>256),
-			array('latitude, longitude, status, bowltype', 'length', 'max'=>45),
+			array('locality, location,delivery_address', 'length', 'max'=>256),
+			array('latitude, longitude, status, bowltype,name,mobile', 'length', 'max'=>45),
 			array('amount', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
