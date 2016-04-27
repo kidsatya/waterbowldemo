@@ -105,7 +105,7 @@ class VolunteersController extends Controller
 		foreach ($allArs as $row) {
 			//print_r($row['latitude']);
 			$d = $this->distance($row['latitude'],$row['longitude'],$latitude,$longitude,"K");
-			if($d <= 0.1)
+			if($d <= 0.05)
 			array_push($bowls, $row);
 		}
 		echo CJavaScript::jsonEncode($bowls);
